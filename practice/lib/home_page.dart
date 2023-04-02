@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -29,12 +31,18 @@ class _RootState extends State<Player> {
     'assets/images/image2.jpg',
     'assets/images/image3.jpg'
   ];
+  late String currentSong;
+  late Source currentSource;
 
   void checkOnPlaying() {
+    currentSong= songsPaths[0];
+    player.setSourceAsset(currentSong);
     if (isPlaying) {
       player.pause();
       isPlaying = false;
     } else {
+      currentSong = songsPaths[1];
+
       player.resume();
       isPlaying = true;
     }
@@ -78,7 +86,7 @@ class _RootState extends State<Player> {
                                           (futureSnapshot.data!.inSeconds *
                                               0.01)) /
                                       100 as double
-                                  : 0.0,
+                                  : 0.00,
                               onChanged: (value) {
                                 var a = futureSnapshot.data!.inSeconds;
                                 player.seek(
@@ -116,30 +124,7 @@ class _RootState extends State<Player> {
 
   @override
   void dispose() {
-    super.dispose();
     player.onPositionChanged.distinct();
+    super.dispose();
   }
-}
-
-class Person {
-  AudioPlayer player = AudioPlayer();
-
-  void display(){
-    print('1');
-  }
-}
-
-class S{
-
-  String? name;
-
-  S(String n){
-    name = n;
-  }
-  Person person = Person();
-
-  void Meter(){
-    person.display();
-  }
-
 }
